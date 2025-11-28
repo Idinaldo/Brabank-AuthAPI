@@ -46,11 +46,11 @@ F<strong>rontend (futuramente)</strong>: Web - React | Mobile - ainda em discuss
 
 A documentação oficial da API está definida em OpenAPI 3.0 e pode ser visualizada através de ferramentas como:
 
-<strong>Swagger UI</strong>
+- <strong>Swagger UI</strong>
 
-<strong>ReDoc</strong>
+- <strong>ReDoc</strong>
 
-<strong>editor.swagger.io</strong>
+- <strong>editor.swagger.io</strong>
 
 Arquivo principal:
 
