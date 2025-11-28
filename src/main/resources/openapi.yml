@@ -1,0 +1,156 @@
+openapi: '3.0.3'
+info:
+  title: Brabank
+  version: '1.0'
+servers:
+  - url: http://localhost:8080
+    description: Servidor de Desenvolvimento
+  - url: https://brabank.com.br/api/beta
+    description: Servidor de Produção para teste da versão beta
+
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - user
+        - account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountRequest"
+      responses:
+        "200":
+          description: OK
+  /auth/login:
+    post:
+      tags:
+         - user
+      summary: autenticação de usuários
+      description: Recebe uma requisição POST e, de acordo com os dados fornecidos, realiza (ou não) a autenticação dos usuários
+      operationId: authUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+  /auth/logout:
+    post:
+      tags:
+       - user
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: false
+          description: Nome Completo do Usuário
+          example: Marilyn Monroe
+        email:
+          type: string
+          format: email
+          description: E-mail do Usuário
+          example: contact@marilyn.monroe
+        password:
+          type: string
+          format: password
+          description: Senha do Usuário
+        role:
+          type: string
+          description: Cargo do Usuário
+          example: client
+          enum: 
+            - client
+            - admin
+            - support
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: false
+          description: Auto-generated UUID
+          example: 1fc9734b-59df-40a2-a3f8-4cdfd02a9667
+        name:
+          type: string
+          nullable: false
+          description: Nome Completo do Usuário
+          example: Marilyn Monroe
+        email:
+          type: string
+          format: email
+          description: E-mail do Usuário
+          example: contact@marilyn.monroe
+        password:
+          type: string
+          format: password
+          description: Senha do Usuário
+        role:
+          type: string
+          description: Cargo do Usuário
+          example: client
+          enum: 
+            - client
+            - admin
+            - support
+        createdAt:
+          type: string
+          format: date-time
+          description: Data de Criação da Conta
+          example: 2025-11-20
+        updatedAt:
+          type: string
+          format: date-time
+          description: Data da Última Atualização de Dados da Conta
+          example: 2025-11-25
+
+    AccountRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID gerado automaticamente
+          example: 1fc9734b-59df-40a2-a3f8-4cdfd02a9667
+          nullable: false
+        accountHolder:
+          $ref: "#/components/schemas/UserRequest"
+        number:
+          type: string
+          pattern: "^[a-zA-Z0-9]+$^"
+        balance:
+          type: string
+          format: amount
+
+    InvestmentsRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID gerado automaticamente
+          example: 1fc9734b-59df-40a2-a3f8-4cdfd02a9667
+          nullable: false
+        name:
+          type: string
+          description: Nome do tipo de investimento
+          example: CDB
+          nullable: false
